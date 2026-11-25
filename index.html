@@ -7,17 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700&family=Red+Hat+Text:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* VOICE work: a portfolio review a servicer's CFO would accept
-   IDEA the servicer's segment P&L sheet, the thing that decides which cases nobody calls
-   PICTURE dumbbell rows: margin per case worked by people vs run by Vexor, crossing zero
-   COLOUR oxford blue band, white panels, magenta for Vexor, grey for today
-   TYPE Red Hat Display + Red Hat Text
-   LAYOUT title band; chart left, controls right; stacks on phone */
+
 :root{color-scheme:light dark;--bg:light-dark(#ffffff,#070f26);--ink:light-dark(#0b1f4b,#e8ecf7);--soft:light-dark(#5a6684,#a3acc4);--line:light-dark(#d9deea,#24305a);--panel:light-dark(#f4f6fb,#0d1a3d);--band:#0b1f4b;--mag:#e0115f;--grey:light-dark(#8b93a8,#7d87a3);--neg:light-dark(#fbe9ef,#2a1030);--step:light-dark(#0b1f4b,#5b74b8)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
 html{scroll-padding-top:20px}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Red Hat Text",system-ui,sans-serif;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Red Hat Text",system-ui,sans-serif}
 h1,h2,h3{font-family:"Red Hat Display",system-ui,sans-serif;letter-spacing:-.02em;line-height:1.08;margin:0}
 h1{font-size:clamp(30px,4.2vw,48px);font-weight:700;text-wrap:balance;max-width:22ch}
 h2{font-size:clamp(24px,2.6vw,32px);font-weight:700;text-wrap:balance;margin-bottom:14px}
@@ -31,7 +26,7 @@ a{color:inherit}
 .top .by{font-size:14px;color:#9fb0d8;margin:0 0 14px}
 .grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(9em,1fr));gap:12px;margin-bottom:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9em),1fr));gap:12px;margin-bottom:18px}
 .kpi b{display:block;font:700 clamp(26px,3vw,34px)/1.05 "Red Hat Display",sans-serif;white-space:nowrap}
 .kpi span{font-size:14px;color:var(--soft)}
 .kpi.m b{color:var(--mag)}
@@ -63,7 +58,7 @@ select{width:100%;min-height:44px}
 button{font:600 15px "Red Hat Text",sans-serif;min-height:44px;padding:0 16px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
 button:hover{border-color:var(--mag)}
 .note{font-size:14px;color:var(--soft)}
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(16em,1fr));gap:22px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16em),1fr));gap:22px}
 .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:18px 0 24px}
 .step{border-top:4px solid var(--step);padding:12px 14px 0 0}
 .step:last-child{border-color:var(--mag)}
@@ -105,7 +100,7 @@ summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:
 <div class="legend"><span><i class="dot" style="background:var(--grey)"></i>Worked by people today</span><span><i class="dot" style="background:var(--mag)"></i>Handled by Vexor, with staff reviewing exceptions</span><span><i class="dot" style="background:var(--neg);border:1px solid var(--line)"></i>Loss-making</span></div>
 <div id="rows"></div>
 <div class="axis"><span id="aMin"></span><span>€0</span><span id="aMax"></span></div>
-<p class="note" style="margin-top:12px">Sample book of 20,000 unsecured Spanish cases with illustrative figures. All figures can be edited in the table below, so the model can be rerun with a real portfolio.</p>
+<p class="note" style="margin-top:12px">Sample book of <span id="bookSize">20,000</span> unsecured Spanish cases with illustrative figures. All figures can be edited in the table below, so the model can be rerun with a real portfolio.</p>
 </div>
 
 <aside class="panel ctl" aria-label="Assumptions">
@@ -116,9 +111,9 @@ summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:
 <div><label for="ai">AI cost per contact attempt <output id="oAi"></output></label><input type="range" id="ai" min="0.1" max="2" step="0.1" value="0.4"></div>
 <div><label for="vf">Vexor fee, share of collections <output id="oVf"></output></label><input type="range" id="vf" min="0" max="8" step="0.5" value="3"></div>
 <div><label for="ex">Work still done by staff <output id="oEx"></output></label><input type="range" id="ex" min="5" max="50" step="5" value="20"></div>
-<label class="sw" for="masc"><input type="checkbox" id="masc" checked><span>Assume Vexor's negotiation record can serve as the MASC proof that Spanish courts require before most claims. Untick to remove this assumption.</span></label>
+<label class="sw" for="masc"><input type="checkbox" id="masc"><span>Assume Vexor's negotiation record can serve as the MASC proof that Spanish courts require before most claims. Untick to remove this assumption.</span></label>
 <button id="reset" type="button">Reset assumptions</button>
-<p class="note" style="margin:0">The Vexor fee is my own assumption. Vexor does not publish prices; its site states only that it is paid on outcome.</p>
+<p class="note" style="margin:0">All inputs are illustrative, not validated customer economics. The Vexor fee is my own assumption. Vexor does not publish prices; its site states only that it is paid on outcome.</p>
 </aside>
 </div></section>
 
@@ -136,9 +131,9 @@ summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:
 <p>The Whitestar pilot was scoped around business outcomes and reached production in three months. Alen has written that the most difficult part was moving into production at scale. The plan below is one way to repeat that process with each new servicer, with exit criteria agreed before the pilot starts and measured against a control group.</p>
 <div class="steps">
 <div class="step"><b>Week 0: agree criteria</b><span>The CFO, compliance lead and head of collections agree four targets for each segment.</span></div>
-<div class="step"><b>Weeks 1–2: set up</b><span>Each segment is split at random, 80% to Vexor and 20% kept with staff as a control group.</span></div>
+<div class="step"><b>Weeks 1–2: set up</b><span>Randomise eligible accounts within segments; use an illustrative 80/20 split only if sample-size planning supports it. Exclude blocked cases.</span></div>
 <div class="step"><b>Weeks 3–10: run</b><span>Team leads review each case Vexor escalates. Scripts and limits are updated in a weekly review.</span></div>
-<div class="step"><b>Week 12: decide</b><span>Segments that meet the targets move to production. Segments that do not are stopped, while the rest continue.</span></div>
+<div class="step"><b>Week 12: decide</b><span>Scale only segments that meet agreed economic and safety criteria with sufficient evidence; stop or extend inconclusive segments.</span></div>
 </div>
 <div class="scroll"><table class="crit">
 <thead><tr><th>Criterion</th><th>Target</th><th>Why it matters</th></tr></thead>
@@ -146,7 +141,7 @@ summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:
 <tr><td>Net collections per case</td><td>Above control, after Vexor's fee</td><td>Shows whether the service is profitable</td></tr>
 <tr><td>Staff hours per €1,000 collected</td><td>At least 40% below control</td><td>Shows how much more work the same team can handle</td></tr>
 <tr><td>Complaints per 1,000 contacts</td><td>No worse than control</td><td>Protects the servicer's reputation and regulatory standing</td></tr>
-<tr><td>Wrong actions found in audit</td><td>Under 5% (Vexor's own 95% claim)</td><td>Needed for compliance approval</td></tr>
+<tr><td>Wrong actions found in audit</td><td>Under 5% non-critical errors; zero critical compliance breaches</td><td>Proposed guardrail; requires independent legal and compliance approval</td></tr>
 </tbody></table></div>
 </div></section>
 
@@ -175,7 +170,7 @@ summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:
 <p>For the debt owner, revenue per case is the amount collected. For a servicer, it is the commission on that amount. The amount collected is the case balance multiplied by the recovery rate, plus the extra recovery on cases taken to court.</p>
 <p>Without Vexor, each case costs six minutes of collector time per contact attempt, plus two hours of legal preparation at €35 an hour for cases taken to court. The debt owner also pays about €100 in court fees and €40 for a burofax to satisfy MASC.</p>
 <p>With Vexor, each contact attempt costs the AI rate, and staff still handle the share of work set above. Legal preparation falls to 0.4 hours, in line with Vexor's published figure of legal work at about 20% of its previous cost. If the negotiation record is accepted as MASC proof, preparation falls to 0.25 hours and the MASC cost to €5. Vexor's fee is deducted from collections.</p>
-<p>A segment is worked only if it makes a profit; otherwise it is dropped and earns nothing. Reviewing a blocked case takes 10 minutes of staff time. Staff numbers assume 1,600 working hours a year.</p>
+<p>A segment is worked only if its modelled contribution is positive. Blocked cases are always excluded from collection; the AI scenario includes a 10-minute staff review cost per blocked case. Staff capacity is expressed as full-time equivalents (FTE), assuming 1,600 working hours a year. Recoveries are capped at the outstanding balance.</p>
 </details>
 <details><summary>Sources</summary>
 <ul>
@@ -203,17 +198,18 @@ const COLS=[['c','Cases'],['b','Avg balance €'],['t','Attempts / yr'],['rh','R
 let seg=DEF.map(o=>({...o}));
 const $=id=>document.getElementById(id);
 const IDS=['view','fee','hr','ai','vf','ex','masc'];
-const DEFV={view:'3p',fee:15,hr:22,ai:0.4,vf:3,ex:20,masc:true};
+const DEFV={view:'3p',fee:15,hr:22,ai:0.4,vf:3,ex:20,masc:false};
 const eur=x=>(x<-0.5?'−':'')+'€'+Math.round(Math.abs(x)).toLocaleString('en-GB');
 const big=x=>{const a=Math.abs(x);return (x<0?'−':'')+'€'+(a>=1e6?(a/1e6).toFixed(1)+'M':a>=1e3?Math.round(a/1e3)+'k':Math.round(a))};
 function econ(s,p){
 const mins=6,courtFee=100,mascExt=40,prepH=2,prepV=p.masc?0.25:0.4,lawRate=35,tp=p.view==='3p';
-const hCollect=s.b*(s.rh+s.lh/100*s.lift)/100;
-const vCollect=s.b*(s.rv+s.lv/100*s.lift)/100;
+if(s.k==="bl")return {h:0,v:-10/60*p.hr,hMin:0,vMin:10};
+const hCollect=s.b*Math.min(100,s.rh+s.lh/100*s.lift)/100;
+const vCollect=s.b*Math.min(100,s.rv+s.lv/100*s.lift)/100;
 const rev=x=>tp?x*p.fee/100:x;
 const hOps=s.t*mins/60*p.hr;
 const hLegal=s.lh/100*(prepH*lawRate+(tp?0:courtFee+mascExt));
-const vOps=s.t*p.ai+p.ex/100*hOps+(s.k==='bl'?10/60*p.hr:0);
+const vOps=s.t*p.ai+p.ex/100*hOps;
 const vLegal=s.lv/100*(prepV*lawRate+(tp?0:courtFee+(p.masc?5:mascExt)));
 const h=rev(hCollect)-hOps-hLegal;
 const v=rev(vCollect)-vOps-vLegal-vCollect*p.vf/100;
@@ -227,17 +223,19 @@ const r=seg.map(s=>({s,...econ(s,p)})).sort((a,b)=>(b.v-b.h)-(a.v-a.h));
 let lo=Math.min(0,...r.map(x=>Math.min(x.h,x.v))),hi=Math.max(1,...r.map(x=>Math.max(x.h,x.v)));
 const pad=(hi-lo)*.06;lo-=pad;hi+=pad;
 const X=x=>((x-lo)/(hi-lo)*100).toFixed(2)+'%';
+const axis=$("aMin").parentElement; axis.style.position="relative"; axis.children[1].style.cssText="position:absolute;left:"+X(0)+";transform:translateX(-50%)";
 let flip=0,gain=0,hm=0,vm=0;
 $('rows').innerHTML=r.map(o=>{
 const hW=o.h>0,vW=o.v>0;
-gain+=((vW?o.v:0)-(hW?o.h:0))*o.s.c;
+gain+=((o.s.k==="bl"?o.v:vW?o.v:0)-(hW?o.h:0))*o.s.c;
 if(hW)hm+=o.hMin*o.s.c;
 if(vW)vm+=o.vMin*o.s.c;
-if(o.s.k==='bl')vm+=10*o.s.c;
+if(o.s.k==='bl')vm+=o.vMin*o.s.c;
 let vd,cls='';
-if(!hW&&vW){flip+=o.s.c;vd='Becomes profitable';cls='flip'}
+if(o.s.k==='bl')vd='Refer to staff';
+else if(!hW&&vW){flip+=o.s.c;vd='Becomes profitable';cls='flip'}
 else if(hW&&vW)vd=(o.v>=o.h?'+':'−')+eur(Math.abs(o.v-o.h))+' per case';
-else if(o.s.k==='bl')vd='Refer to staff';
+else if(hW&&!vW)vd='No longer profitable';
 else vd='Still a loss';
 const a=Math.min(o.h,o.v),b=Math.max(o.h,o.v);
 return `<div class="row"><div class="nm">${o.s.n}<small>${o.s.c.toLocaleString('en-GB')} cases · ${o.s.s}</small></div>
@@ -245,16 +243,17 @@ return `<div class="row"><div class="nm">${o.s.n}<small>${o.s.c.toLocaleString('
 <div class="verdict ${cls}">${vd}<br><span class="note">${eur(o.h)} → ${eur(o.v)}</span></div></div>`}).join('');
 $('aMin').textContent=eur(lo);$('aMax').textContent=eur(hi);
 const fte=m=>m/60/1600;
+$('bookSize').textContent=seg.reduce((n,s)=>n+s.c,0).toLocaleString('en-GB');
 $('kFlip').textContent=flip.toLocaleString('en-GB');
 $('kGain').textContent=big(gain);
-$('kFte').textContent=Math.round(fte(hm))+' → '+Math.max(1,Math.round(fte(vm)));
+$('kFte').textContent=fte(hm).toFixed(1)+' → '+fte(vm).toFixed(1);
 $('finding').textContent=flip>0?`${flip.toLocaleString('en-GB')} currently dropped cases become profitable`:'No dropped segment crosses into profit at these settings';
 }
 function table(){
 $('seg').innerHTML='<thead><tr><th>Segment</th>'+COLS.map(c=>`<th>${c[1]}</th>`).join('')+'</tr></thead><tbody>'+
-seg.map((s,i)=>'<tr><td>'+s.n+'</td>'+COLS.map(c=>`<td><input type="number" inputmode="decimal" min="0" id="c-${s.k}-${c[0]}" data-i="${i}" data-f="${c[0]}" value="${s[c[0]]}" aria-label="${s.n} ${c[1]}"></td>`).join('')+'</tr>').join('')+'</tbody>';
+seg.map((s,i)=>'<tr><td>'+s.n+'</td>'+COLS.map(c=>`<td><input type="number" inputmode="decimal" min="0" max="${["rh","rv","lh","lv","lift"].includes(c[0])?100:100000000}" step="${["c","t"].includes(c[0])?1:0.01}" id="c-${s.k}-${c[0]}" data-i="${i}" data-f="${c[0]}" value="${s[c[0]]}" aria-label="${s.n} ${c[1]}"></td>`).join('')+'</tr>').join('')+'</tbody>';
 }
-$('seg').addEventListener('input',e=>{const t=e.target;if(!t.dataset.f)return;const v=parseFloat(t.value);if(!isNaN(v)&&v>=0){seg[+t.dataset.i][t.dataset.f]=v;draw()}});
+$('seg').addEventListener('input',e=>{const t=e.target;if(!t.dataset.f)return;const v=parseFloat(t.value);if(Number.isFinite(v)&&t.validity.valid){seg[+t.dataset.i][t.dataset.f]=v;draw()}else{t.reportValidity()}});
 IDS.forEach(id=>$(id).addEventListener('input',draw));
 $('reset').addEventListener('click',()=>{IDS.forEach(id=>{const e=$(id);if(e.type==='checkbox')e.checked=DEFV[id];else e.value=DEFV[id]});seg=DEF.map(o=>({...o}));table();draw()});
 table();draw();
