@@ -20,3 +20,9 @@ The proposed 90-day pilot tests economics, capacity, complaints and audit qualit
 Run `node tests/model.test.mjs` with Node.js 22. GitHub Actions runs the model checks automatically.
 
 Prepared by Anupriya Singh.
+
+## Reference sources (reviewed 26 November 2026)
+
+- [Vexor product website](https://vexorai.eu/): vendor-reported legal work cost benchmark of 20% relative to a five-person legal team. Not independently validated and not a measured result of this case study.
+- [Spanish Organic Law 1/2025, articles 5 and 10](https://www.boe.es/buscar/act.php?id=BOE-A-2025-76): prior negotiation requirements and evidence rules, subject to statutory exceptions. No confirmation that AI-generated negotiation records alone satisfy these requirements; the optional model scenario defaults off.
+- All portfolio sizes, recovery rates, fee assumptions, staffing estimates and pilot thresholds are illustrative. No live pilot or customer outcome is claimed.
