@@ -5,6 +5,11 @@ Independent product strategy exercise examining which debt collection segments c
 - [Interactive scenario model](https://anewpriya.github.io/vexor-case-study/)
 - [Original November 2026 submission (PDF)](Vexor_Case_Study.pdf)
 
+
+## Project preview
+
+![Interactive profitability scenario with illustrative estimates and assumption controls](vexor-scenario.png)
+
 ## Model
 
 Compare annual contribution per case, newly profitable segments and staff capacity from a servicer or debt-owner perspective. Adjust portfolio inputs, fees, recovery assumptions and human review requirements.
