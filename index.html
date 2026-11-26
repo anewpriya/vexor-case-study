@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700&family=Red+Hat+Text:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#070f26);--ink:light-dark(#0b1f4b,#e8ecf7);--soft:light-dark(#5a6684,#a3acc4);--line:light-dark(#d9deea,#24305a);--panel:light-dark(#f4f6fb,#0d1a3d);--band:#0b1f4b;--mag:#e0115f;--grey:light-dark(#8b93a8,#7d87a3);--neg:light-dark(#fbe9ef,#2a1030);--step:light-dark(#0b1f4b,#5b74b8)}
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#070f26);--ink:light-dark(#0b1f4b,#e8ecf7);--soft:light-dark(#5a6684,#a3acc4);--line:light-dark(#d9deea,#24305a);--panel:light-dark(#f4f6fb,#0d1a3d);--band:#0b1f4b;--mag:light-dark(#bd104f,#ff518c);--grey:light-dark(#8b93a8,#7d87a3);--neg:light-dark(#fbe9ef,#2a1030);--step:light-dark(#0b1f4b,#5b74b8)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
 html{scroll-padding-top:20px}
@@ -79,11 +79,12 @@ summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:
 @media(max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.row{grid-template-columns:minmax(0,1fr) 8em}.row .nm{grid-column:1/-1}.axis{margin-left:0;margin-right:calc(8em + 12px)}.steps{grid-template-columns:minmax(0,1fr)}.step{padding-bottom:10px}}
 @media(prefers-reduced-motion:no-preference){.track .v,.track .h,.track .bar{transition:left .35s ease,width .35s ease}}
+.results-link{font-weight:600;min-height:44px;display:flex;align-items:center;justify-content:center;text-underline-offset:3px}.axis{box-sizing:border-box;position:relative}.axis span:first-child,.axis span:last-child{position:absolute}.axis span:first-child{left:0}.axis span:last-child{right:0}.axis{height:26px}.axis span:nth-child(2){white-space:nowrap}
 </style>
 </head>
 <body>
 <header class="band top"><div class="wrap">
-<p class="by">A case study for Vexor by Anupriya Singh · November 2026</p>
+<p class="by">Independent case study exploring Vexor by Anupriya Singh · November 2026</p>
 <h1>Which debt cases become worth collecting when AI handles the routine work</h1>
 <p>Whitestar's CEO has said that Vexor allowed the company to work segments it had previously dropped because they were unprofitable, such as small balances where an agent costs more than the case recovers. This model estimates, segment by segment, which cases would become profitable for a servicer in Spain, and sets out a 90-day pilot to test the estimate.</p>
 </div></header>
@@ -91,10 +92,11 @@ summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:
 <main>
 <section class="band"><div class="wrap grid">
 <div>
+<p class="note" id="scenario-results">Illustrative annual scenario · not observed customer outcomes</p>
 <div class="kpis">
-<div class="kpi m"><b id="kFlip">0</b><span>currently dropped cases that become profitable</span></div>
-<div class="kpi m"><b id="kGain">€0</b><span>extra margin a year on this book</span></div>
-<div class="kpi"><b id="kFte">0</b><span>staff needed for the profitable portfolio, today and with Vexor</span></div>
+<div class="kpi m"><b id="kFlip">0</b><span>modelled dropped cases becoming profitable</span></div>
+<div class="kpi m"><b id="kGain">€0</b><span>estimated additional annual margin</span></div>
+<div class="kpi"><b id="kFte">0</b><span>estimated staffing requirement (FTE), today and with Vexor</span></div>
 </div>
 <h2 id="finding">Margin per case a year, by segment</h2>
 <div class="legend"><span><i class="dot" style="background:var(--grey)"></i>Worked by people today</span><span><i class="dot" style="background:var(--mag)"></i>Handled by Vexor, with staff reviewing exceptions</span><span><i class="dot" style="background:var(--neg);border:1px solid var(--line)"></i>Loss-making</span></div>
@@ -111,8 +113,9 @@ summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:
 <div><label for="ai">AI cost per contact attempt <output id="oAi"></output></label><input type="range" id="ai" min="0.1" max="2" step="0.1" value="0.4"></div>
 <div><label for="vf">Vexor fee, share of collections <output id="oVf"></output></label><input type="range" id="vf" min="0" max="8" step="0.5" value="3"></div>
 <div><label for="ex">Work still done by staff <output id="oEx"></output></label><input type="range" id="ex" min="5" max="50" step="5" value="20"></div>
-<label class="sw" for="masc"><input type="checkbox" id="masc"><span>Assume Vexor's negotiation record can serve as the MASC proof that Spanish courts require before most claims. Untick to remove this assumption.</span></label>
+<label class="sw" for="masc"><input type="checkbox" id="masc"><span>Assume Vexor's negotiation record can serve as the MASC proof that Spanish courts require before most claims. Unverified legal scenario; leave unchecked unless testing this assumption.</span></label>
 <button id="reset" type="button">Reset assumptions</button>
+<a class="results-link" href="#scenario-results">Back to scenario results</a>
 <p class="note" style="margin:0">All inputs are illustrative, not validated customer economics. The Vexor fee is my own assumption. Vexor does not publish prices; its site states only that it is paid on outcome.</p>
 </aside>
 </div></section>
@@ -247,7 +250,7 @@ $('bookSize').textContent=seg.reduce((n,s)=>n+s.c,0).toLocaleString('en-GB');
 $('kFlip').textContent=flip.toLocaleString('en-GB');
 $('kGain').textContent=big(gain);
 $('kFte').textContent=fte(hm).toFixed(1)+' → '+fte(vm).toFixed(1);
-$('finding').textContent=flip>0?`${flip.toLocaleString('en-GB')} currently dropped cases become profitable`:'No dropped segment crosses into profit at these settings';
+$('finding').textContent=flip>0?`${flip.toLocaleString('en-GB')} modelled dropped cases become profitable`:'No dropped segment crosses into profit at these settings';
 }
 function table(){
 $('seg').innerHTML='<thead><tr><th>Segment</th>'+COLS.map(c=>`<th>${c[1]}</th>`).join('')+'</tr></thead><tbody>'+
